@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 
 const RandomMovingImage = ({ cols, rows, imageSrc }) => {
   const randomX = Math.random() * 0.7;
@@ -13,8 +12,8 @@ const RandomMovingImage = ({ cols, rows, imageSrc }) => {
         rows == 1 ? 'row-span-1' : 'row-span-2'
       } rounded-lg overflow-hidden`}
       style={{ '--random-x-value': randomX, '--random-y-value': randomY }}>
-      <Image
-        src={imageSrc}
+      <img
+        src={imageSrc.src || imageSrc}
         alt="photo"
         className=" object-cover  w-full h-full"
       />
