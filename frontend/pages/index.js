@@ -1,24 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import Image from 'next/image';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import axios from 'axios';
 import { CgGitFork } from 'react-icons/cg';
 import { AiFillStar } from 'react-icons/ai';
 
-import coffee from '@/assets/coffee.svg';
-import dribble from '@/assets/dribble.svg';
-import github from '@/assets/github.svg';
-import linkedin from '@/assets/linkedin.svg';
-import twitter from '@/assets/twitter.svg';
-import youtube from '@/assets/youtube.svg';
-import instagram from '@/assets/instagram.svg';
+import { floatingIcons, repoStats } from '@/constant/siteData';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function LandingPage({ forks, stars }) {
+export default function LandingPage() {
+  const { forks, stars } = repoStats;
   const heroRef = useRef(null);
   const featuresRef = useRef(null);
   const testimonialsRef = useRef(null);
@@ -279,13 +272,7 @@ const TestimonialsSection = React.forwardRef((props, ref) => {
                 "{testimonial.quote}"
               </p>
               <div className="flex items-center space-x-4">
-                <Image
-                  src={testimonial.avatar}
-                  alt={testimonial.author}
-                  width={60}
-                  height={60}
-                  className="rounded-full"
-                />
+                <img src={testimonial.avatar} alt={testimonial.author} width={60} height={60} className="rounded-full" />
                 <div>
                   <p className="text-lg font-semibold text-gray-900">
                     {testimonial.author}
@@ -398,23 +385,10 @@ function ForkStar({ forks, stars }) {
 }
 
 function FloatingIcons() {
-  const icons = [
-    { src: coffee, alt: 'Coffee', className: 'top-5 left-[8%]' },
-    { src: dribble, alt: 'Dribble', className: 'top-[10%] left-[2%]' },
-    { src: github, alt: 'GitHub', className: 'top-[20%] left-[15%]' },
-    { src: linkedin, alt: 'LinkedIn', className: 'bottom-[10%] left-[5%]' },
-    { src: twitter, alt: 'Twitter', className: 'bottom-[20%] left-[20%]' },
-    { src: youtube, alt: 'YouTube', className: 'bottom-[20%] right-[20%]' },
-    { src: instagram, alt: 'Instagram', className: 'bottom-[10%] right-[5%]' },
-    { src: coffee, alt: 'Coffee', className: 'top-[20%] right-[15%]' },
-    { src: github, alt: 'GitHub', className: 'top-[10%] right-[2%]' },
-    { src: dribble, alt: 'Dribble', className: 'top-5 right-[8%]' },
-  ];
-
   return (
     <div className="hidden md:block absolute inset-0 overflow-hidden pointer-events-none">
-      {icons.map((icon, index) => (
-        <Image
+      {floatingIcons.map((icon, index) => (
+        <img
           key={index}
           className={`absolute w-8 h-8 md:w-12 md:h-12 animate-float  ${icon.className}`}
           src={icon.src}
@@ -503,29 +477,3 @@ function VideoIcon(props) {
   );
 }
 
-export async function getStaticProps() {
-  try {
-    const response = await axios.get(
-      'https://api.github.com/repos/Balaganesh003/bento-clone'
-    );
-    const forks = response.data.forks_count;
-    const stars = response.data.stargazers_count;
-
-    return {
-      props: {
-        forks,
-        stars,
-      },
-    };
-  } catch (error) {
-    console.error('Error fetching repo data:', error);
-
-    return {
-      props: {
-        forks: 0,
-        stars: 0,
-        revalidate: 60 * 60 * 24, // 24 hours
-      },
-    };
-  }
-}

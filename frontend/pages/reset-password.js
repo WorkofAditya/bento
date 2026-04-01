@@ -1,18 +1,13 @@
-import ResetPassword from '@/components/ResetPassword';
-import SignupAnimation from '@/components/SignupAnimation';
-import ResetForm from '@/components/ResetForm';
+import Link from 'next/link';
 
-const Login = () => {
+export default function ResetPassword() {
   return (
-    <div className="flex lg:flex-row p-7 sm:p-16 max-w-[1728px] w-full min-h-screen  mx-auto">
-      <div className="flex max-w-[675px] flex-1 flex-col items-center justify-center ">
-        <ResetForm />
-      </div>
-      <div className="hidden lg:flex flex-1 z-10  max-w-[675px] flex-col items-center justify-center  w-full h-full">
-        <SignupAnimation />
+    <div className="min-h-screen flex items-center justify-center p-8">
+      <div className="max-w-md w-full space-y-4 text-center">
+        <h1 className="text-3xl font-semibold">Password reset</h1>
+        <p>This static build uses local-only data, so password reset is not required.</p>
+        <Link href="/login" className="inline-block bg-black text-white px-5 py-3 rounded-lg">Back to login</Link>
       </div>
     </div>
   );
-};
-
-export default Login;
+}
